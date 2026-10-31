@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a2b">
+<title>Beyond the Blue — A Parallax Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#f7f3e9;--muted:#c6d1d5;--gold:#f5c76b;--deep:#071a2b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--deep);color:var(--ink);font-family:"DM Sans",sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}.topbar{position:fixed;z-index:20;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 6vw;mix-blend-mode:normal;background:linear-gradient(#061727aa,transparent)}
+.logo{font-weight:700;letter-spacing:.16em;font-size:.78rem}.logo span{color:var(--gold)}nav{display:flex;gap:30px;font-size:.78rem;color:#e1e8e8}nav a{opacity:.8;transition:.2s}nav a:hover{opacity:1;color:var(--gold)}
+.progress{position:fixed;z-index:30;top:0;left:0;height:3px;background:var(--gold);width:0;transform-origin:left}
+.hero{height:100svh;min-height:650px;position:relative;overflow:hidden;display:grid;place-items:center;text-align:center;background:linear-gradient(180deg,#102f48 0%,#1b5366 46%,#e08c68 100%)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#071a2b44 0%,transparent 45%,#071a2b 100%);z-index:5;pointer-events:none}
+.layer{position:absolute;inset:0;will-change:transform}.stars{opacity:.8;background-image:radial-gradient(2px 2px at 12% 20%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 76% 18%,#fff 50%,transparent 60%),radial-gradient(2px 2px at 88% 42%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 34% 34%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 62% 12%,#fff 50%,transparent 60%);background-size:440px 300px}
+.sun{position:absolute;width:clamp(130px,18vw,240px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1c5,#ffc46d 60%,#ef875e);top:22%;left:calc(50% - 110px);box-shadow:0 0 90px #ffb66b88}
+.mountain{position:absolute;bottom:0;width:100%;height:52%;background:#21485a;clip-path:polygon(0 56%,13% 20%,24% 55%,39% 5%,54% 58%,68% 18%,82% 61%,93% 30%,100% 56%,100% 100%,0 100%)}
+.mountain.back{height:43%;background:#47717a;opacity:.75;clip-path:polygon(0 50%,17% 5%,31% 52%,48% 18%,64% 58%,78% 10%,100% 53%,100% 100%,0 100%)}
+.sea{position:absolute;bottom:0;height:27%;width:100%;background:linear-gradient(#d18a70,#17465a 65%,#08283d);clip-path:polygon(0 8%,15% 2%,30% 11%,47% 3%,65% 12%,83% 4%,100% 10%,100% 100%,0 100%)}
+.hero-copy{position:relative;z-index:8;padding:0 20px;margin-top:-4vh}.eyebrow{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:#ffe2aa}.hero h1{font:600 clamp(3.4rem,9vw,8.7rem)/.95 "Playfair Display",serif;letter-spacing:-.055em;margin:22px 0}.hero p{max-width:520px;margin:0 auto;color:#f0e7d9;line-height:1.7;font-size:1rem}.scroll-cue{position:absolute;z-index:9;bottom:36px;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:#f9e7c8}.scroll-cue:after{content:"";display:block;width:1px;height:42px;background:var(--gold);margin:14px auto 0}
+.section{position:relative;min-height:90vh;padding:140px 8vw;overflow:hidden;display:flex;align-items:center}.section-inner{position:relative;z-index:3;max-width:570px}.kicker{color:var(--gold);letter-spacing:.22em;text-transform:uppercase;font-size:.68rem;font-weight:700}.section h2{font:600 clamp(2.8rem,6vw,5.8rem)/1.02 "Playfair Display",serif;letter-spacing:-.04em;margin:20px 0}.section p{color:var(--muted);font-size:1.03rem;line-height:1.85;max-width:480px}.chapter{background:linear-gradient(130deg,#08263b,#10475a 65%,#1b5660)}.chapter .orb{position:absolute;width:44vw;max-width:620px;aspect-ratio:1;border-radius:50%;right:7vw;top:13%;background:radial-gradient(circle at 38% 35%,#f4d99a,#d58b62 45%,#7c4c50 75%,transparent 76%);filter:drop-shadow(0 25px 70px #0005);opacity:.9}
+.chapter .ring{position:absolute;width:55vw;max-width:760px;aspect-ratio:1;border:1px solid #f6d7a566;border-radius:50%;right:1vw;top:9%;transform:rotate(-24deg) scaleY(.32)}
+.chapter .ring:after{content:"";position:absolute;inset:12%;border:1px solid #f6d7a544;border-radius:50%}
+.forest{background:linear-gradient(180deg,#102f3c,#071d2b);min-height:100vh}.forest .section-inner{margin-left:auto}.tree{position:absolute;bottom:-3%;left:4%;width:42vw;height:94%;opacity:.9}.tree:before{content:"";position:absolute;bottom:0;left:48%;width:9%;height:75%;background:linear-gradient(90deg,#3a2928,#765044,#2d2928);clip-path:polygon(40% 0,65% 0,58% 100%,0 100%)}
+.tree i{position:absolute;display:block;background:radial-gradient(ellipse at 35% 30%,#6a9b79,#1d584d 65%,#0c302f);border-radius:50% 50% 45% 55%;filter:drop-shadow(0 15px 15px #0004)}
+.tree i:nth-child(1){width:65%;height:43%;left:8%;top:4%}.tree i:nth-child(2){width:65%;height:42%;left:28%;top:22%}.tree i:nth-child(3){width:72%;height:45%;left:0;top:37%}.tree i:nth-child(4){width:60%;height:42%;left:35%;top:48%}
+.fireflies{position:absolute;inset:0;background-image:radial-gradient(3px 3px at 20% 25%,#f6d98b 50%,transparent),radial-gradient(2px 2px at 66% 18%,#f6d98b 50%,transparent),radial-gradient(3px 3px at 80% 65%,#f6d98b 50%,transparent),radial-gradient(2px 2px at 44% 78%,#f6d98b 50%,transparent);background-size:420px 360px;opacity:.8}
+.coast{min-height:100vh;background:linear-gradient(180deg,#e9a878 0%,#d77e6d 35%,#24566a 100%);color:#142b36}.coast p{color:#284651}.coast .kicker{color:#7a4638}.coast .section-inner{max-width:520px}.coastline{position:absolute;bottom:-2%;right:-3%;width:70%;height:67%;background:linear-gradient(145deg,#f4d2a1,#bd806d 60%,#4a6570);clip-path:polygon(32% 0,51% 17%,57% 39%,78% 48%,100% 35%,100% 100%,0 100%,0 45%,17% 34%)}
+.wave{position:absolute;bottom:0;left:-10%;width:120%;height:30%;background:repeating-linear-gradient(176deg,transparent 0 25px,#e5c3a455 26px 28px,transparent 29px 54px);opacity:.8}
+.footer{min-height:72vh;background:#071a2b;display:grid;place-items:center;text-align:center;padding:100px 24px;position:relative;overflow:hidden}.footer .glow{position:absolute;width:60vw;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#1d5865aa,transparent 68%);top:0;left:20%}.footer-content{position:relative;z-index:2}.footer h2{font:600 clamp(3rem,8vw,7rem)/1 "Playfair Display",serif;margin:18px 0}.footer p{color:var(--muted);max-width:440px;line-height:1.8;margin:0 auto 30px}.button{display:inline-block;padding:14px 24px;border:1px solid #e9c47b;border-radius:99px;color:#f4d89f;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;transition:.25s}.button:hover{background:#f4d89f;color:#102536;transform:translateY(-3px)}
+.reveal{opacity:0;transform:translateY(35px);transition:opacity .9s ease,transform .9s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:700px){nav{gap:14px;font-size:.68rem}.topbar{padding:18px 5vw}.section{padding:110px 8vw;min-height:85vh}.section-inner,.forest .section-inner{margin:0;max-width:100%}.chapter .orb{width:72vw;right:-20%;top:8%;opacity:.5}.chapter .ring{width:82vw;right:-30%;top:10%}.tree{width:75vw;left:-25%;opacity:.45}.coastline{width:100%;right:-25%;opacity:.65}.hero{min-height:600px}.hero p{font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{transition:none}.layer{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="topbar"><a class="logo" href="#top">BEYOND<span> / </span>THE BLUE</a><nav><a href="#orbit">Orbit</a><a href="#wild">Wild</a><a href="#shore">Shore</a></nav></header>
+<main>
+<section class="hero" id="top">
+  <div class="layer stars" data-speed=".12"></div><div class="layer" data-speed=".2"><div class="sun"></div></div>
+  <div class="layer" data-speed=".32"><div class="mountain back"></div></div><div class="layer" data-speed=".48"><div class="mountain"></div></div>
+  <div class="layer" data-speed=".62"><div class="sea"></div></div>
+  <div class="hero-copy reveal"><div class="eyebrow">A little further than the horizon</div><h1>Find your<br>elsewhere.</h1><p>Leave the familiar behind. Drift through strange skies, ancient forests and coastlines that feel like the edge of a dream.</p></div>
+  <div class="scroll-cue">Scroll to wander</div>
+</section>
+<section class="section chapter" id="orbit">
+  <div class="layer" data-speed=".12"><div class="ring"></div></div><div class="layer" data-speed=".28"><div class="orb"></div></div>
+  <div class="section-inner reveal"><div class="kicker">01 / The quiet orbit</div><h2>Somewhere<br>between worlds.</h2><p>Above the noise, the world slows down. A warm horizon hangs in the dark, reminding us that wonder is often just a different point of view.</p></div>
+</section>
+<section class="section forest" id="wild">
+  <div class="layer" data-speed=".24"><div class="tree"><i></i><i></i><i></i><i></i></div></div><div class="layer fireflies" data-speed=".42"></div>
+  <div class="section-inner reveal"><div class="kicker">02 / Into the wild</div><h2>Let the forest<br>keep its secrets.</h2><p>Follow the soft light between the trees. Here, every rustle has a story and every turn feels like the beginning of one.</p></div>
+</section>
+<section class="section coast" id="shore">
+  <div class="layer" data-speed=".18"><div class="coastline"></div></div><div class="layer" data-speed=".34"><div class="wave"></div></div>
+  <div class="section-inner reveal"><div class="kicker">03 / The far shore</div><h2>Meet the edge<br>of everything.</h2><p>The tide draws silver lines across the sand. Take a breath, stay a little longer, and let the next chapter find you.</p></div>
+</section>
+<section class="footer">
+  <div class="glow layer" data-speed=".15"></div><div class="footer-content reveal"><div class="kicker">The journey is yours</div><h2>Keep wandering.</h2><p>There is always another horizon. Thanks for taking the scenic route.</p><a class="button" href="#top">Back to the beginning ↑</a></div>
+</section>
+</main>
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const layers = [...document.querySelectorAll('.layer[data-speed]')];
+  const progress = document.getElementById('progress');
+  let ticking = false;
+  function update(){
+    const y = window.scrollY;
+    if (!reduce) layers.forEach(el => {
+      const speed = Number(el.dataset.speed || 0);
+      const section = el.closest('section');
+      const rect = section.getBoundingClientRect();
+      const offset = (rect.top + y) * -1;
+      el.style.transform = `translate3d(0, ${offset * speed}px, 0)`;
+    });
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, {passive:true});
+  window.addEventListener('resize', update); update();
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if(entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+  }), {threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+</body>
+</html>
